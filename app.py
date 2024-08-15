@@ -93,7 +93,7 @@ def user(user):
 
 @app.route('/about/')
 def about():
-    return '<h3>This is a Flask web application.</h3>'
+    return render_template('about.html')
 
 @app.errorhandler(404)
 def page_not_found(error):
