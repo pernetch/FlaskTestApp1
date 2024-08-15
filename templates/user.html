@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Page de {{ user|capitalize }}{% endblock %}
+
+{% block head %}
+    {{ super() }}   
+    <style>
+    </style>
+{% endblock %}
+
+{% block page_content %}
+  <div class="page-header">
+    <h1>Salut {{ user|capitalize }} !</h1>
+    <p>Ton rôle actuel est {{ role }}</p>
+    
+  </div>
+{% endblock %}
