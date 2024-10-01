@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Page de {{ user|capitalize() }}{% endblock %}
+{% block title %}Page de {{ user.username|capitalize() }}{% endblock %}
 
 {% block head %}
     {{ super() }}   
@@ -10,8 +10,8 @@
 
 {% block page_content %}
   <div class="page-header">
-    <h1>Salut {{ user|capitalize }} !</h1>
-    <p>Ton rôle actuel est {{ role }}</p>
+    <h1>Salut {{ user.username|capitalize }} !</h1>
+    <p>Ton rôle actuel est {{ user.role.name }}</p>
     
   </div>
 

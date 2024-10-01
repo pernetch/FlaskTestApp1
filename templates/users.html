@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Page de tous les utilisateurs{% endblock %}
+
+{% block head %}
+    {{ super() }}   
+    <style>
+    </style>
+{% endblock %}
+
+{% block page_content %}
+  <div class="page-header">
+    <h1>Utilisateurs</h1>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">User</th>
+              <th scope="col">Role</th>
+              <th scope="col">View Profile</th>
+            </tr>
+        </thead>
+       
+        {% for user in users -%}
+        
+            <tr>
+              <th scope="row">{{loop.index}}</th>  
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.role.name}}</td>
+              <td>
+                
+                <a href="{{url_for('user',user=user.username)}}"  ><i class="bi bi-info-square-fill"></i></a>
+                  <!-- <a href="/{{ user.username }}"  ><i class="bi bi-info-square-fill"></i></a>  -->
+                </td>
+            </tr>
+        
+        {%- endfor %}
+    </table>  
+    
+  </div>
+
+{% endblock %}

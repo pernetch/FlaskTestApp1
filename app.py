@@ -7,43 +7,21 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 from forms import NameForm
-
-
-
+from models import *
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'fsadjkl fsaléf jsadf'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config.from_pyfile(os.path.join(basedir, 'config.py'))
 
 bootstrap = Bootstrap(app)
-db = SQLAlchemy(app)
-
-#tables de la DB en SQLALCHEMY
-class Role (db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    users = db.relationship('User', backref='role', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
+#db = SQLAlchemy(app)
+db.init_app(app)
 
 
-class User (db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
-    def __repr__(self):
-        return '<User %r>' % self.username   
+   
 
-# point d'entrée de l'application. Equivalent (att. bugs de Flask run)
-if __name__ == '__main__':
-   app.run(debug=True)
+
 
 #shell context pour DB
 @app.shell_context_processor
@@ -89,13 +67,23 @@ def user(user):
         return render_template('404.html')
     else:
         user_role=Role.query.filter_by(id=user_exist.role_id).first()
-        return render_template('user.html', user=user, role=user_role.name)
+        #return render_template('user.html', user=user, role=user_role.name)
+        return render_template('user.html',user=user_exist)
+    
+@app.route('/users/')
+def users():
+    users = User.query.order_by(User.username.desc())
+    return render_template('users.html',users=users)
 
 @app.route('/about/')
 def about():
     return render_template('about.html')
 
-
+# on ajoute un commentaire ici...
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html',error=error), 404
+
+# point d'entrée de l'application. Equivalent (att. bugs de Flask run)
+if __name__ == '__main__':
+   app.run(debug=True)
