@@ -17,9 +17,7 @@ bootstrap = Bootstrap(app)
 #db = SQLAlchemy(app)
 db.init_app(app)
 
-
-
-   
+ 
 
 
 
