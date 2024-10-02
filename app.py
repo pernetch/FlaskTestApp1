@@ -67,21 +67,33 @@ def user(user):
         user_role=Role.query.filter_by(id=user_exist.role_id).first()
         #return render_template('user.html', user=user, role=user_role.name)
         return render_template('user.html',user=user_exist)
-    
+
+
 @app.route('/users/')
 def users():
     users = User.query.order_by(User.username.desc())
     return render_template('users.html',users=users)
 
+
+@app.route('/<int:id>/delete', methods=('POST',))
+def delete(id):    
+    user = User.query.filter_by(id=id).first()
+    db.session.delete(user)
+    db.session.commit()
+    db.session.close()
+    flash('"{}" was successfully deleted!'.format(user.username))
+    return redirect(url_for('users'))
+
 @app.route('/about/')
 def about():
     return render_template('about.html')
+
 
 # on ajoute un commentaire ici...
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html',error=error), 404
 
-# point d'entrée de l'application. Equivalent (att. bugs de Flask run)
+# point d'entrée de l'application. Equivalent Flask run
 if __name__ == '__main__':
    app.run(debug=True)

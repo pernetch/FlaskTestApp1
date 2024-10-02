@@ -33,7 +33,22 @@
               <td>
                 
                 <a href="{{url_for('user',user=user.username)}}"  ><i class="bi bi-info-square-fill"></i></a>
-                  <!-- <a href="/{{ user.username }}"  ><i class="bi bi-info-square-fill"></i></a>  -->
+                <!-- <a href="/{{ user.username }}"  ><i class="bi bi-info-square-fill"></i></a>  -->
+                
+                <form style="display:inline" action="{{url_for('user',user=user.username)}}" method="get">
+                  <button class="btn btn btn-outline-secondary" type="button" onclick="return">
+                    <i class="bi bi-info-square-fill"></i>
+                  </button>
+                </form>
+                &nbsp; 
+                
+                <form style="display:inline" action="{{url_for('delete',id=user.id)}}" method="post">
+                  <button class="btn btn btn-outline-secondary" type="button"
+                          onclick="return confirm('Delete user?')">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </form>
+              
                 </td>
             </tr>
         
